@@ -2,9 +2,9 @@ def remove_files_if_exist(file_paths):
     """
     Remove files if they exist at the given file paths.
     Parameters:
-    file_paths (list): A list of file paths to remove.
+        file_paths (list): A list of file paths to remove.
     Returns:
-    None
+        None
     """
     import os
     # Find the files that exist
@@ -19,13 +19,13 @@ def remove_files_if_exist(file_paths):
                 print(f"Could not remove file {file_path}.")
 
 
-def save_files(file_list):
+def save_np_files(file_list):
     """
-    Save data to files.
+    Save data to .npy files.
     Parameters:
-    file_list (list): A list of tuples where the first element is the file name and the second element is the data to be saved.
+        file_list (list): A list of tuples where the first element is the file name and the second element is the data to be saved.
     Returns:
-    None
+        None
     """
     import numpy as np
     # Loop through each file and save the data
@@ -34,18 +34,18 @@ def save_files(file_list):
             np.save(file[0], file[1])
         except:
             # If there is an error, print a message to the console
-            print(f"Could not save data to file {file[0]}.")
+            print(f"Could not save data to .npy file {file[0]}.")
 
-
-def load_data(file_names):
+def load_np_data(file_names):
     """
-    Load data from files.
+    Load data from .npy files.
     Parameters:
-    file_names (list): A list of file names to load.
+        file_names (list): A list of file names to load.
     Returns:
-    data (list): A list of loaded data.
+        data (list): A list of loaded data.
     """
     import numpy as np
+    
     data = []
     # Loop through each file and load the data
     for file_name in file_names:
@@ -53,17 +53,18 @@ def load_data(file_names):
             data.append(np.load(file_name))
         except:
             # If there is an error, print a message to the console
-            print(f"Could not load data from file {file_name}.")
+            print(f"Could not load data from file {file_name}.")     
     return data
+
 
 
 def remove_folder(folder_path):
     """
     Remove a folder and all its contents.
     Parameters:
-    folder_path (str): The path of the folder to remove.
+        folder_path (str): The path of the folder to remove.
     Returns:
-    None
+        None
     """
     import shutil
     try:
