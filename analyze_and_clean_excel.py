@@ -1,12 +1,10 @@
 def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPLEID', 'example_id')], column_to_check: str = None) -> tuple:
     """
     Analyzes an Excel file and returns a tuple containing the cleaned DataFrame and a dictionary of results.
-
     Args:
         path_to_file (str): The path to the Excel file to analyze.
         exceptions (list, optional): A list of column names that should not be modified. Defaults to [('EXAMPLEID', 'example_id')].
         column_to_check (str, optional): The name of a column to check for data consistency and correctness. Defaults to None.
-
     Returns:
         tuple: A tuple containing the cleaned DataFrame and a dictionary of results.
     """
