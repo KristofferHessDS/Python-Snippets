@@ -9,6 +9,7 @@ def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPL
         tuple: A tuple containing the cleaned DataFrame and a dictionary of results.
     """
     import pandas as pd
+    import numpy as np
     import matplotlib.pyplot as plt
     import seaborn as sns
     import re
