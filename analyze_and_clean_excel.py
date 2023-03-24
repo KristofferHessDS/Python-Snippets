@@ -1,10 +1,9 @@
-def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPLEID', 'example_id')], column_to_check: str = None) -> tuple:
+def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPLEID', 'example_id')]) -> tuple:
     """
     Analyzes an Excel file and returns a tuple containing the cleaned DataFrame and a dictionary of results.
     Args:
         path_to_file (str): The path to the Excel file to analyze.
         exceptions (list, optional): A list of column names that should not be modified. Defaults to [('EXAMPLEID', 'example_id')].
-        column_to_check (str, optional): The name of a column to check for data consistency and correctness. Defaults to None.
     Returns:
         tuple: A tuple containing the cleaned DataFrame and a dictionary of results.
     """
@@ -14,6 +13,7 @@ def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPL
     import seaborn as sns
     import re
     %matplotlib inline
+    
     # Read in the Excel file
     df = pd.read_excel(path_to_file)
 
@@ -72,31 +72,30 @@ def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPL
     else:
         box_plot_title = None
 
-    # Check for data consistency and correctness (example checking a distribution)
-    if column_to_check is not None:
-        dist_title = 'Distribution of ' + column_to_check
-        sns.distplot(df[column_to_check])
-        plt.title(dist_title)
-        plt.show()
+    # Check for distributions (example using distplot)
+    if len(numerical_columns) > 0:
+        dist_plots_title = 'Distribution plots for numerical columns'
+        for col in numerical_columns:
+            sns.distplot(df[col])
+            plt.title('Distribution of {}'.format(col))
+            plt.show()
     else:
-        dist_title = None
-
+        dist_plots_title = None
+    
+    # Generate summary of dataframe
+    if len(numerical_columns) > 0:
+        df_summary = df[numerical_columns].describe()
+    else:
+        df_summary = None
+    
     # Create dictionary of results
     results = {
         'missing_values_warning': missing_values_warning,
         'duplicates_warning': duplicates_warning,
         'data_types': data_types,
         'box_plot_title': box_plot_title,
-        'dist_title': dist_title
+        'dist_plots_title': dist_plots_title,
+        'dataframe_summary': df_summary
     }
-
-    # Generate summary of dataframe
-    if len(numerical_columns) > 0:
-        df_summary = df[numerical_columns].describe()
-        
-        # Add summary to results dictionary
-        results['dataframe_summary'] = df_summary
-    else:
-        results['dataframe_summary'] = None
 
     return df, results
