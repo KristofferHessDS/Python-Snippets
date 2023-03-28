@@ -23,7 +23,7 @@ def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPL
         if exceptions and col in [e[0] for e in exceptions]:
             new_cols.append([e[1] for e in exceptions if e[0] == col][0])
         else:
-            new_col = re.sub('(?<!^)(?=[A-Z][a-z])|(?<=\w)(?=[A-Z])', '_', col).lower().rstrip()
+            new_col = re.sub('(?<!^)(?=[A-Z][a-z])|(?<=\w)(?=[A-Z])', '_', col.rstrip()).lower()
             new_cols.append(new_col)
     df.columns = new_cols
 
