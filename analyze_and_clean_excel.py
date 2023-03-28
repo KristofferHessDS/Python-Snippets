@@ -1,9 +1,15 @@
 def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPLEID', 'example_id')]) -> tuple:
     """
     Analyzes an Excel file and returns a tuple containing the cleaned DataFrame and a dictionary of results.
+
+    This function reads in an Excel file, formats the column names, checks for missing values and duplicates, applies
+    rstrip to all string columns, converts date columns to '%m/%d/%Y' format, checks for outliers and anomalies using
+    box plots, generates distribution plots for numerical columns, and generates a summary of the cleaned DataFrame.
+
     Args:
         path_to_file (str): The path to the Excel file to analyze.
         exceptions (list, optional): A list of column names that should not be modified. Defaults to [('EXAMPLEID', 'example_id')].
+
     Returns:
         tuple: A tuple containing the cleaned DataFrame and a dictionary of results.
     """
@@ -12,7 +18,14 @@ def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPL
     import matplotlib.pyplot as plt
     import seaborn as sns
     import re
-    %matplotlib inline
+    
+    try:
+        # Check if running in Jupyter Notebook
+        shell = get_ipython().__class__.__name__
+        if shell == 'ZMQInteractiveShell':
+            %matplotlib inline
+    except NameError:
+        pass
     
     # Read in the Excel file
     df = pd.read_excel(path_to_file)
