@@ -51,6 +51,10 @@ def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPL
     dtypes = df.dtypes
     data_types = 'Data types:\n' + str(dtypes)
 
+    # Apply rstrip to string columns
+    string_cols = df.select_dtypes(include=['object']).columns.tolist()
+    df[string_cols] = df[string_cols].apply(lambda x: x.str.rstrip() if x.dtype == 'object' else x)
+
     # Convert date columns to '%m/%d/%Y' format
     date_cols = df.select_dtypes(include=np.datetime64).columns
     for col in date_cols:
