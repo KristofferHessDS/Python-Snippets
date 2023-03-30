@@ -79,13 +79,10 @@ def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPL
     if len(numerical_columns) > 0:
         # Filter out non-numeric columns from the boxplot
         numerical_columns = [col for col in numerical_columns if len(df[col].unique()) > 10]
-        if len(numerical_columns) > 0:
-            box_plot_title = 'Box plot of data values for ' + ', '.join(numerical_columns)
-            plt.boxplot(df[numerical_columns].values)
-            plt.title(box_plot_title)
-            plt.show()
-        else:
-            box_plot_title = None
+        box_plot_title = 'Box plot of data values for ' + ', '.join(numerical_columns)
+        plt.boxplot(df[numerical_columns].values)
+        plt.title(box_plot_title)
+        plt.show()
     else:
         box_plot_title = None
 
