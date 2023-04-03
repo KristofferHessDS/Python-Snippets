@@ -33,10 +33,10 @@ def analyze_and_clean_excel_file(path_to_file: str, exceptions: list = [('EXAMPL
     # Format column names
     new_cols = []
     for col in df.columns:
-        if exceptions and col in [e[0] for e in exceptions]:
+        if exceptions and col in [e[0] for e in exceptions]
             new_cols.append([e[1] for e in exceptions if e[0] == col][0])
         else:
-            new_col = re.sub('(?<!^)(?=[A-Z][a-z])|(?<=\w)(?=[A-Z])', '_', col.rstrip()).lower()
+            new_col = re.sub('(?<!^)(?=[A-Z][a-z])', '_', col).lower().replace(" ", "_")
             new_cols.append(new_col)
     df.columns = new_cols
 
