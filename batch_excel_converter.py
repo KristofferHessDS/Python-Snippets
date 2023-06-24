@@ -15,10 +15,17 @@ for file in xlsx_files:
     # get the file name without the extension
     base_name = os.path.splitext(file)[0]
 
+    # specify the name of the csv file to be created
+    csv_file = base_name + '.csv'
+    
+    # if the csv file already exists, delete it first
+    if os.path.exists(csv_file):
+        os.remove(csv_file)
+
     # create a csv file from the dataframe
-    df.to_csv(base_name + '.csv', index=False)
+    df.to_csv(csv_file, index=False)
     
     # indicate that the file has been converted
-    print(f"Converted {file} to {base_name}.csv!")
+    print(f"Converted {file} to {csv_file}!")
 
 print("All .xlsx files have been converted to .csv!")
