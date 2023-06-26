@@ -3,12 +3,18 @@ import pandas as pd
 
 # get all the xlsx files in the current directory
 xlsx_files = [f for f in os.listdir() if f.endswith('.xlsx')]
+total_files = len(xlsx_files)
+print(f"Found {total_files} .xlsx files to convert.")
+
+# initialize counters
+success_count = 0
+fail_count = 0
 
 # iterate over the list of files
-for file in xlsx_files:
+for i, file in enumerate(xlsx_files, start=1):
     try:
         # indicate which file is starting to be converted
-        print(f"Starting to convert {file}...")
+        print(f"Starting to convert {file} ({i} of {total_files})...")
 
         # read the Excel file
         df = pd.read_excel(file, engine='openpyxl')
@@ -27,8 +33,10 @@ for file in xlsx_files:
         df.to_csv(csv_file, index=False)
 
         # indicate that the file has been converted
-        print(f"Converted {file} to {csv_file}!")
+        print(f"Converted {file} to {csv_file} ({i} of {total_files} files converted)!")
+        success_count += 1
     except Exception as e:
         print(f"Error occurred while converting {file}: {str(e)}")
+        fail_count += 1
 
-print("All .xlsx files have been converted to .csv!")
+print(f"All .xlsx files have been attempted for conversion. {success_count} of {total_files} files successfully converted, {fail_count} files failed to convert.")
