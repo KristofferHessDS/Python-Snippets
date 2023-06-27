@@ -10,14 +10,14 @@ print(f"Found {total_files} .xlsx files to convert.")
 success_count = 0
 fail_count = 0
 
+# define chunk size
+chunk_size = 50000  # adjust this value depending on your memory capacity
+
 # iterate over the list of files
 for i, file in enumerate(xlsx_files, start=1):
     try:
         # indicate which file is starting to be converted
         print(f"Starting to convert {file} ({i} of {total_files})...")
-
-        # read the Excel file
-        df = pd.read_excel(file, engine='openpyxl')
 
         # get the file name without the extension
         base_name = os.path.splitext(file)[0]
@@ -29,8 +29,15 @@ for i, file in enumerate(xlsx_files, start=1):
         if os.path.exists(csv_file):
             os.remove(csv_file)
 
-        # create a csv file from the dataframe
-        df.to_csv(csv_file, index=False)
+        # read the Excel file in chunks and append each chunk to the csv
+        chunk_container = pd.read_excel(file, engine='openpyxl', chunksize=chunk_size)
+        first_one = True
+        for chunk in chunk_container:
+            if first_one:  # if it's the first chunk
+                chunk.to_csv(csv_file, index=False)
+                first_one = False
+            else:
+                chunk.to_csv(csv_file, mode='a', header=False, index=False)
 
         # indicate that the file has been converted
         print(f"Converted {file} to {csv_file} ({i} of {total_files} files converted)!")
